@@ -15,7 +15,17 @@ loop do
 
 	if input.first == "Output"
 		id = input.last.split(":").first
-		ShoppingBasket.new(id).show_products
+		shopping_basket_info = ShoppingBasket.new(id).show_info
+		shopping_basket_info.each do |info|
+			if info.size > 1
+				info.each do |product_info|
+					product_info << "\n"
+					print product_info.join(' ')
+				end
+			else
+				print info.join(' ')
+			end
+		end
 	end
 
 	if input.size > 3

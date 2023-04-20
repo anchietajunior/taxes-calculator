@@ -10,11 +10,8 @@ class ShoppingBasket
 		@id = id
 	end
 
-	def print_info
-		show_products
-	end
-
-	def show_products
+	def show_info
+		info = []
 		products = []
 		total_prices = 0
 		total_taxes = 0
@@ -28,12 +25,10 @@ class ShoppingBasket
 
 		puts 'No products found' if products.empty? && return
 
-		products.each do |product|
-			product << "\n"
-			print product.join(' ')
-		end
+		info << products
+		info << ["Sales Taxes: #{total_taxes}\n"]
+		info << ["Total: #{total_prices}\n"]
 
-		print "Sales Taxes: #{total_taxes}\n"
-		print "Total: #{total_prices}\n"
+		info
 	end
 end

@@ -28,12 +28,8 @@ RSpec.describe Product do
 		let(:input) { ['1', 'imported', 'bottle', 'of', 'perfume', 'at', '27.99'] }
 		let(:shopping_basket) { 1 }
 
-		it 'has the correct tax' do
-			expect(product.send(:product_tax)).to eq(0.15)
+		it 'has the correct values' do
+			expect(product.send(:to_row).join(' ')).to eq("1 1 imported bottle of perfume 32.19 4.2")
 		end
-
-		# it 'has the correct values' do
-		# 	expect(product.send(:to_row).join(' ')).to eq("1 1 imported bottle of perfume 32.19 4.2")
-		# end
 	end
 end

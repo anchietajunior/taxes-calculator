@@ -56,7 +56,7 @@ class Product
   end
 
   def total_price_with_taxes
-    round_up(total_price + taxes)
+    (total_price + taxes).round(2)
   end
 
   def taxes
@@ -76,8 +76,8 @@ class Product
   end
 
   def round_up(tax)
-    rounded_up = ((tax * 2).ceil) / 2.0
-    rounded_up += 0.5 if rounded_up.to_s.split('.').last == '0'
-    rounded_up
+    tax *= 10
+    rounded_tax = tax.ceil
+    rounded_tax / 10.0
   end
 end
