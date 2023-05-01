@@ -2,20 +2,20 @@
 
 require 'csv'
 
-class ShoppingBasket
-	CSV_PATH = 'products.csv'
-	attr_reader :id
+class Ticket
+	attr_reader :id, :csv_path
 
-	def initialize(id)
+	def initialize(id, csv_path)
 		@id = id
+		@csv_path = csv_path
 	end
 
-	def show_info
+	def retrieve_data
 		info = []
 		products = []
 		total_prices = 0
 		total_taxes = 0
-		CSV.foreach(CSV_PATH, headers: false) do |row|
+		CSV.foreach(csv_path, headers: false) do |row|
 			if row[0] == id
 				products << row
 				total_prices += row[-2].to_f

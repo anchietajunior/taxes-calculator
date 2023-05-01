@@ -3,7 +3,6 @@
 require 'csv'
 
 class Product
-  CSV_PATH = 'products.csv'
   NOT_TAXED_PRODUCTS = [
     'book',
     'chocolate',
@@ -14,13 +13,13 @@ class Product
   BASIC_TAX = 0.10
   IMPORTED_AND_BASIC_TAX = 0.15
 
-  attr_reader :name, :unit_price, :quantity, :shopping_basket
+  attr_reader :name, :unit_price, :quantity, :ticket_id, :csv_path
 
-  def initialize(input, shopping_basket)
+  def initialize(input, ticket_id, csv_path)
     @quantity = input.first.to_i
     @name = input[1, input.length - 2].reject { |word| word == 'at' }.join(' ')
     @unit_price = input.last.to_f
-    @shopping_basket = shopping_basket
+    @ticket_id = ticket_id
   end
 
   def save
