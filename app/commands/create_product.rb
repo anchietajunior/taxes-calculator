@@ -1,25 +1,45 @@
 # frozen_string_literal: true
 
-require_relative '../models/ticket'
+require 'pry'
+require 'yaml'
+require_relative 'base_command.rb'
+require_relative '../models/tax_factory.rb'
 
-class CreateProduct
-  attr_reader :input, :ticket_id, :csv_path
+class CreateProduct < BaseCommand
+	attr_reader :product, :repository
 
-  def initialize(input, ticket_id, csv_path)
-    @ticket_id = ticket_id
+	def initialize(product, repository)
+    @product = product
+		@repository = repository
   end
+	
+	def call
+		save_product_to_csv
+	rescue StandardError => e
+		print "Could not save the product with error: #{e.message}, please try again.\n"
+	end
+	
+	private
+	
+	def save_product_to_csv
+		repository.save_product(product_to_row)
+	end
+	
+	def product_to_row
+		[
+			product.ticket_id,
+			product.quantity,
+			product.name,
+			total_price_with_taxes.to_s('F'),
+			taxes
+		]
+	end
 
-  def call
-    ticket_data = Ticket.new(ticket_id, csv_path).retrieve_data
-		ticket_data.each do |info|
-			if info.size > 1
-				info.each do |product_info|
-					product_info << "\n"
-					print product_info.join(' ')
-				end
-			else
-				print info.join(' ')
-			end
-		end
+	def taxes
+    @taxes ||= TaxFactory.create_tax(product.basic_taxed?, product.imported?).calculate(product.total_price)
   end
+	
+	def total_price_with_taxes
+		(product.total_price + taxes).round(2)
+	end
 end

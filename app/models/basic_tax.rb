@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+require_relative 'tax'
+
+class BasicTax < Tax
+  TAX = BigDecimal('0.10')
+
+  def calculate(amount)
+    round_up_to_nearest_0_or_5(amount * TAX)
+  end
+end
