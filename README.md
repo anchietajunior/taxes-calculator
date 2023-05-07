@@ -28,3 +28,4 @@ bundle exec rspec
 - Added BigDecimal operations over Float operations to avoid decimals inconsistencies
 - Moved the non taxed products to the not_taxed_products.yml file
 - Improved classes, variables and methods names
+- Update App.rb from only methods to a class
